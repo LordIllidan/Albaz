@@ -1,0 +1,71 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/home"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Monthly Report</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <div *ngIf="isLoading" class="loading-container">
+        <ion-spinner></ion-spinner>
+        <p>Loading report...</p>
+    </div>
+
+    <div *ngIf="error" class="error-container">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <p>{{ error }}</p>
+        <ion-button (click)="loadReport()">Try Again</ion-button>
+    </div>
+
+    <div *ngIf="!isLoading && !error && report">
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>{{ report.month }} {{ report.year }} Report</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-list>
+                    <ion-item>
+                        <ion-label>Total Sales</ion-label>
+                        <ion-note slot="end">{{ formatCurrency(report.totalSales) }}</ion-note>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Orders</ion-label>
+                        <ion-note slot="end">{{ report.orders }}</ion-note>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Average Order Value</ion-label>
+                        <ion-note slot="end">{{ formatCurrency(report.averageOrderValue) }}</ion-note>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>New Customers</ion-label>
+                        <ion-note slot="end">{{ report.newCustomers }}</ion-note>
+                    </ion-item>
+                </ion-list>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>Performance Metrics</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-list>
+                    <ion-item>
+                        <ion-label>Conversion Rate</ion-label>
+                        <ion-note slot="end">{{ formatPercentage(report.conversionRate) }}</ion-note>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Customer Satisfaction</ion-label>
+                        <ion-note slot="end">{{ report.customerSatisfaction }}/5</ion-note>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Return Rate</ion-label>
+                        <ion-note slot="end">{{ formatPercentage(report.returnRate) }}</ion-note>
+                    </ion-item>
+                </ion-list>
+            </ion-card-content>
+        </ion-card>
+    </div>
+</ion-content>
